@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+
+{% block content %}
+    <div class="search_block">
+        <form method="post">
+            <div class="date_from_block">
+                <label for="post_date_from">Post created from:</label>
+                <input type="date" id="post_date_from" name="date_from">
+            </div>
+
+            <div class="date_to_block">
+                <label for="post_date_to">Post created to:</label>
+                <input type="date" id="post_date_to" name="date_to">
+            </div>
+
+            <div class="by_user_search">
+                <label for="author_id">Author:</label>
+                <select name="author_id" id="author_id">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" id="button" value="SEARCH">
+        </form>
+    </div>
+
+    <div class="user_list">
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Author</th>
+                <th>Created at</th>
+            </tr>
+            {% for post in posts %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('view_get_posts', id=post.id) }}">
+                            {{ post.title }}
+                        </a>
+                    </td>
+                    <td>{{ post.description }}</td>
+                    <td>
+                        <a href="{{ url_for('view_get_user', id=post.author_id) }}">{{ post.user.username }}</a>
+                    </td>
+                    <td>{{ post.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div class="menu">
+            <div class="menu_item">
+                <a href="{{ url_for('view_users') }}">
+                    Users
+                </a>
+            </div>
+            <div class="menu_item">
+                <a href="{{ url_for('view_posts') }}">
+                    Posts
+                </a>
+            </div>
+        </div>
+        {% block content %}
+        
+        {% endblock %}
+
+    </body>
+</html>

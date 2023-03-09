@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+{% block content %}
+    <div class="user_block">
+        <div class="photo">
+            <img src="{{ url_for('static', filename='face.jpg') }}" width="150" height="150" alt="photo of user">
+        </div>
+        <div class="name_title">New Post</div>
+    </div>
+    <div class="user_data_edit">
+        <form method="post">
+            <table class="table">
+                <tr>
+                    <td><label for="title">Title</label></td>
+                    <td><input type="text" id="title" name="title" value="" size="30"></td>
+                </tr>
+                <tr>
+                    <td><label for="description">Description</label></td>
+                    <td><input type="text" id="description" name="description" value="" size="30"></td>
+                </tr>
+                <tr>
+                    <td><label for="author_id">Author</label></td>
+                    <td>
+                        <select id="author_id" name="author_id" >
+                            {% for user in data %}
+                                <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <button type="submit">SAVE</button>
+        </form>
+    </div>
+{% endblock %}
