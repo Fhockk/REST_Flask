@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+
+    <div class="user_block">
+        <div class="photo">
+            <img src="../static/face.jpg" width="150" height="150" alt="photo of user">
+        </div>
+        <div class="name_title">New User</div>
+    </div>
+
+
+    <div class="user_data_edit">
+        <form method="post">
+            <table class="table">
+                <tr>
+                    <td><label for="username">Username</label></td>
+                    <td>
+                        <input type="text" id="username" placeholder="testuser322" name="username" value="" size="30"></td>
+                </tr>
+                <tr>
+                    <td><label for="first_name">First name</label></td>
+                    <td><input type="text" id="first_name"  placeholder="John" name="first_name" value="" size="30"></td>
+                </tr>
+                <tr>
+                    <td><label for="last_name">Last name</label></td>
+                    <td><input type="text" id="last_name" placeholder="Smith" name="last_name" value="" size="30"></td>
+                </tr>
+                <tr>
+                    <td><label for="location">Location</label></td>
+                    <td><input type="text" id="location" placeholder="Ukraine" name="location" value="" size="30"></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email</label></td>
+                    <td><input type="email" id="email" placeholder="test@gmail.com" name="email" value="" size="30"></td>
+                </tr>
+            </table>
+
+            <button type="submit">SAVE</button>
+        </form>
+    </div>
+
+{% endblock %}

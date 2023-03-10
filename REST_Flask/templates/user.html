@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+{% block content %}
+
+    <div class="user_block">
+        <div class="photo">
+            <img src="{{ url_for('static', filename='face.jpg') }}" width="150" height="150" alt="photo of user">
+        </div>
+        <div class="name_title">{{ data.first_name }} {{ data.last_name }}</div>
+    </div>
+
+    <div class="user_data">
+        <table class="table">
+            <tr>
+                <td>Username</td>
+                <td>{{ data.username }}</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>{{ data.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>{{ data.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ data.email }}</td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>{{ data.location }}</td>
+            </tr>
+            <tr>
+                <td>Posts</td>
+                <td>{{ data.num_post }}</td>
+            </tr>
+            <tr>
+                <td>Registered at</td>
+                <td>{{ data.registered_at }}</td>
+            </tr>
+
+        </table>
+    </div>
+
+
+    <div class="buttons_block">
+        <button class="button">
+            <a href="{{ url_for('view_edit_user', id=data.id) }}">EDIT</a>
+        </button>
+        <button class="button" onclick="confirmation()">
+            <script>
+                function confirmation(){
+                    confirm("Do you confirm deletion?");
+                }
+            </script>
+            <a href={{ url_for('view_delete_user', id=data.id) }}>DELETE</a>
+        </button>
+    </div>
+
+    <div class="table_title">
+        List of posts
+    </div>
+    {% if data.posts %}
+
+            <div class="post_list">
+                <table class="table">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                    </tr>
+                    {% for post in data.posts %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('view_get_posts', id=post.id) }}">{{ post.title }}</a>
+                        </td>
+                        <td>{{ post.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+    {% endif %}
+    <div class="buttons_block">
+        <button class="button">
+            <a href="{{ url_for('view_new_post') }}">
+                ADD
+            </a>
+        </button>
+    </div>
+
+{% endblock %}

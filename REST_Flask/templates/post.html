@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} {% endblock %}
+{% block content %}
+    <div class="user_block">
+        <div class="photo">
+            <img src="{{ url_for('static', filename='face.jpg') }}" width="150" height="150" alt="photo of user">
+        </div>
+        <div class="name_title">{{ data.title }}</div>
+    </div>
+
+    <div class="user_data">
+        <table class="table">
+            <tr>
+                <td>Title</td>
+                <td>{{ data.title }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>{{ data.description }}</td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td>{{ data.first_name }} {{ data.last_name }}</td>
+            </tr>
+            <tr>
+                <td>Created at</td>
+                <td>{{ data.created_at }}</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div class="buttons_block">
+        <button class="button">
+            <a href="{{ url_for('view_edit_post', id=data.id) }}">EDIT</a>
+        </button>
+        <button class="button" onclick="confirmation()">
+            <script>
+                function confirmation(){
+                    confirm("Do you confirm deletion?");
+                }
+            </script>
+            <a href="{{ url_for('view_delete_post', id=data.id) }}">DELETE</a>
+        </button>
+    </div>
+{% endblock %}
