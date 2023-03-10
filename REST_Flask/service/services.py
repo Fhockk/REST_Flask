@@ -1,7 +1,8 @@
 """CRUD functions"""
 from config import db
 
-from models.model import *
+from models.model import User, user_schema, users_schema
+from models.model import Post, post_schema, posts_schema
 
 
 # ==================== Users ====================

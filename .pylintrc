@@ -1,0 +1,5 @@
+[MASTER]
+ignore=.git,__pycache__,migrations
+
+[TYPECHECK]
+generated-members=app.logger

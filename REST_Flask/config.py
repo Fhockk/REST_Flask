@@ -56,5 +56,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{DB_USER}:{DB_PASS}@{DB_ADDR}/{DB_NAME}'
 db = SQLAlchemy(app)
 
-MIGRATION_DIR = os.path.join('migrations')
+MIGRATION_DIR = os.path.join('REST_Flask', 'migrations')
 migrate = Migrate(app, db, directory=MIGRATION_DIR)

@@ -1,7 +1,10 @@
 """RESTfull service"""
 from flask import jsonify, request
 
-from service.services import *
+from service.services import get_user, get_users, get_post, get_posts
+from service.services import create_user, create_post
+from service.services import update_user, update_post
+from service.services import delete_user, delete_post
 
 from config import app
 
