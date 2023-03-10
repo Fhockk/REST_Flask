@@ -1,0 +1,17 @@
+language: python
+
+services:
+ - mysql
+
+python:
+ - "3.9"
+
+before_install:
+ - mysql -e 'CREATE DATABASE epamproj'
+
+install:
+ - pip install -r requirements.txt
+
+script:
+ - python -m pylint REST_Flask
+ - flask db upgrade
