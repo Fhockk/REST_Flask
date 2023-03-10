@@ -1,12 +1,15 @@
 """Project configuration"""
 import os
 
+import logging
 from logging.config import dictConfig
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
+
+logger = logging.getLogger(__name__)
 dictConfig({
     "version": 1,
     "formatters": {
