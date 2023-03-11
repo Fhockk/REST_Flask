@@ -1,12 +1,12 @@
 """RESTfull service"""
 from flask import jsonify, request
 
-from service.services import get_user, get_users, get_post, get_posts
-from service.services import create_user, create_post
-from service.services import update_user, update_post
-from service.services import delete_user, delete_post
+from ..service.services import get_user, get_users, get_post, get_posts
+from ..service.services import create_user, create_post
+from ..service.services import update_user, update_post
+from ..service.services import delete_user, delete_post
 
-from config import app
+from ..config import app
 
 
 # ==================== Users ====================
@@ -64,7 +64,7 @@ def api_get_user():
                      does not exist.
     """
     user_id = request.json.get('id')
-    feedback = get_user(int(user_id))
+    feedback = get_user(user_id)
     app.logger.debug(f"API. GET. GET USER. id = {user_id}. {feedback}")
     if feedback:
         return jsonify(feedback), 200

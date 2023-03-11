@@ -1,1 +1,1 @@
-FLASK_APP=REST_Flask/app.py
+FLASK_APP=restflask/app.py

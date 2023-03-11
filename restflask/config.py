@@ -21,7 +21,7 @@ dictConfig({
     "handlers": {
         "size-rotate": {
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": "REST_flask.log",
+            "filename": "restflask.log",
             "maxBytes": 1000000,
             "backupCount": 5,
             "formatter": "default",
@@ -33,7 +33,7 @@ dictConfig({
         },
         "file": {
             "class": "logging.FileHandler",
-            "filename": "REST_flask.log",
+            "filename": "restflask.log",
             "formatter": "default",
         }
     },
@@ -56,5 +56,5 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://{DB_USER}:{DB_PASS}@{DB_ADDR}/{DB_NAME}'
 db = SQLAlchemy(app)
 
-MIGRATION_DIR = os.path.join('REST_Flask', 'migrations')
+MIGRATION_DIR = os.path.join('restflask', 'migrations')
 migrate = Migrate(app, db, directory=MIGRATION_DIR)

@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text, func
 from sqlalchemy.orm import relationship
 # from sqlalchemy.sql import func
 
-from config import db, ma
+from ..config import db, ma
 
 
 class User(db.Model):

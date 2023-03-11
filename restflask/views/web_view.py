@@ -1,16 +1,16 @@
 """WEB controllers"""
 from datetime import datetime
 
-from config import app
+from ..config import app
 from flask import render_template, redirect, request, flash
 
-from models.model import User, Post
+from ..models.model import User, Post
 
-from service.validate import date_format
-from service.services import get_user, get_users, get_post, get_posts
-from service.services import create_user, create_post
-from service.services import update_user, update_post
-from service.services import delete_user, delete_post
+from ..service.validate import date_format
+from ..service.services import get_user, get_users, get_post, get_posts
+from ..service.services import create_user, create_post
+from ..service.services import update_user, update_post
+from ..service.services import delete_user, delete_post
 
 
 # ==================== Users ====================

@@ -1,8 +1,8 @@
 """CRUD functions"""
-from config import db
+from ..config import db
 
-from models.model import User, user_schema, users_schema
-from models.model import Post, post_schema, posts_schema
+from ..models.model import User, user_schema, users_schema
+from ..models.model import Post, post_schema, posts_schema
 
 
 # ==================== Users ====================
@@ -44,17 +44,21 @@ def create_user(data: dict) -> str:
     return 'Success'
 
 
-def get_user(user_id: int) -> dict | None:
+def get_user(user_id: str) -> dict | None:  # pylint: disable=E1131
     """
     This function takes an integer user_id as input and returns a dictionary of user data associated
     with the given user id. If the user id is not found in the database, the function returns None.
 
-    :param user_id: user_id (int): User id for the user to be retrieved from the database.
+    :param user_id: user_id (str): User id for the user to be retrieved from the database.
     :return:  user_dict (dict): A dictionary of user data associated with the given user id.
     It contains the following keys: id, username, email, password, created_at, and updated_at.
     If the user id is not found in the database, the function returns None.
     """
-    user = User.query.filter_by(id=user_id).first()
+    if user_id.isdigit():
+        user = User.query.filter_by(id=int(user_id)).first()
+    else:
+        user = User.query.filter_by(email=user_id).first()
+    
     if user:
         user_dict = user_schema.dump(user)
         return user_dict
@@ -138,7 +142,7 @@ def create_post(data: dict) -> str:
     return 'Success'
 
 
-def get_post(post_id: int) -> dict | None:
+def get_post(post_id: int) -> dict | None:  # pylint: disable=E1131
     """
     Retrieves the post with the specified ID from the database.
 
