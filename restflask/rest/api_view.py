@@ -20,7 +20,11 @@ def api_users():
                       The keys in each dictionary correspond to the fields of a User object.
     """
     app.logger.debug("API. GET. list of users")
-    return jsonify(get_users())
+    users_list = get_users()
+    for user in users_list:
+        for post in user['posts']:
+            post['user'] = post['user'].username
+    return jsonify(users_list)
 
 
 @app.route('/api/create_user/', methods=['POST'])
@@ -63,10 +67,12 @@ def api_get_user():
         with a 'Not Found' value if the user
                      does not exist.
     """
-    user_id = request.json.get('id')
+    user_id = request.args.get('id')
     feedback = get_user(user_id)
     app.logger.debug(f"API. GET. GET USER. id = {user_id}. {feedback}")
     if feedback:
+        for post in feedback['posts']:
+            post['user'] = post['user'].username
         return jsonify(feedback), 200
     return jsonify(message="Not Found"), 204
 
@@ -115,9 +121,9 @@ def api_delete_user():
         or a 'message' key with
                      the error message if the deletion was unsuccessful.
     """
-    user_id = request.json.get('id')
-    feedback = delete_user(int(user_id))
-    app.logger.debug(f"API. DELETE USER. id = {request.json.get('id')}. {feedback}")
+    user_id = request.args.get('id')
+    feedback = delete_user(user_id)
+    app.logger.debug(f"API. DELETE USER. id = {request.args.get('id')}. {feedback}")
     if feedback == 'Success':
         return jsonify(message='User id: ' + user_id + ' has been deleted'), 200
     return jsonify(message=feedback), 409
@@ -137,7 +143,19 @@ def api_posts():
         a single post
     """
     app.logger.debug("API. LISTS OF POSTS.")
-    return jsonify(get_posts()), 200
+    posts = get_posts()
+    print(posts)
+    for post in posts:
+        print(post)
+        if post['user'] and post['author_id']:
+            post['user'] = post['user'].username
+            print(post['user'])
+            print('here1')
+        else:
+            post['user'] = ''
+            post['author_id'] = ''
+            print('here2')
+    return jsonify(posts), 200
 
 
 @app.route('/api/create_post/', methods=['POST'])
@@ -167,11 +185,17 @@ def api_get_post():
         'Not Found' value if the user
                      does not exist.
     """
-    post_id = request.json.get('id')
-    feedback = get_post(int(post_id))
-    app.logger.debug(f"API. GET POST. id = {request.json.get('id')}. {feedback}")
+    post_id = request.args.get('id')
+    feedback = get_post(post_id)
+    app.logger.debug(f"API. GET POST. id = {request.args.get('id')}. {feedback}")
     if feedback:
-        return jsonify(feedback), 200
+        if feedback['user'] and feedback['author_id']:
+            feedback['user'] = feedback['user'].username
+            return jsonify(feedback), 200
+        else:
+            feedback['user'] = ''
+            feedback['author_id'] = ''
+            return jsonify(feedback), 200
     return jsonify(message="Not Found"), 204
 
 
@@ -197,11 +221,10 @@ def api_update_post():
     """
     data = request.json
     feedback = update_post(data)
-    app.logger.debug(f"API. UPDATE POST. id = {request.json.get('id')}. {feedback}")
+    app.logger.debug(f"API. UPDATE POST. {feedback}")
     if feedback == "Success":
         return jsonify(message='Post ' + data['title'] + ' has been updated'), 201
     return jsonify(message=feedback), 409  # check status code
-
 
 @app.route('/api/delete_post/', methods=['DELETE'])
 def api_delete_post():
@@ -212,9 +235,9 @@ def api_delete_post():
         A JSON object with a 'message' key indicating the success
         or failure of the operation, and an appropriate HTTP status code.
     """
-    post_id = request.json.get('id')
-    feedback = delete_post(int(post_id))
-    app.logger.debug(f"API. DELETE POST. id = {request.json.get('id')}. {feedback}")
+    post_id = request.args.get('id')
+    feedback = delete_post(post_id)
+    app.logger.debug(f"API. DELETE POST. {feedback}")
     if feedback == 'Success':
         return jsonify(message='Post id: ' + post_id + ' has been deleted'), 200
     return jsonify(message=feedback), 409

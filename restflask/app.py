@@ -1,7 +1,9 @@
 """"APPLICATION"""
-import restflask.views.web_view # pylint: disable=unused-import
-import restflask.rest.api_view # pylint: disable=unused-import
-from restflask.config import app
+#import views.web_view # pylint: disable=unused-import
+from .views import web_view # pylint: disable=unused-import
+from .rest import api_view # pylint: disable=unused-import
+#import rest.api_view # pylint: disable=unused-import
+from .config import app
 
 
 if __name__ == '__main__':

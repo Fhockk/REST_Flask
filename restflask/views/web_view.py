@@ -1,8 +1,8 @@
 """WEB controllers"""
 from datetime import datetime
+from flask import render_template, redirect, request, flash
 
 from ..config import app
-from flask import render_template, redirect, request, flash
 
 from ..models.model import User, Post
 
@@ -72,7 +72,7 @@ def view_get_user(id: int):  # pylint: disable=C0103,W0622
         rendered template: the details of the specified user.
     """
     user_id = id
-    user = get_user(int(user_id))
+    user = get_user(user_id)
     user['num_post'] = len(user['posts'])
     user['registered_at'] = date_format(user['registered_at'])
     app.logger.debug(f"GET USER. id = {user_id}")
@@ -169,6 +169,11 @@ def view_posts():
         posts = get_posts()
         for post in posts:
             post['created_at'] = date_format(post['created_at'])
+            if post['user'] and post['author_id']:
+                post['user'] = post['user'].username
+            else:
+                post['user'] = '0'
+                post['author_id'] = '0'
         app.logger.debug("GET. List of posts")
     return render_template("post_list.html", posts=posts, users=users)
 
@@ -263,6 +268,8 @@ def view_edit_post(id: int):   # pylint: disable=C0103,W0622,R1710
         if feedback == 'Success':
             flash('Post record updated!', category='message')
             return redirect('/posts/' + str(id))
+        else:
+            flash(feedback, category='error')
     else:
         post = get_post(id)
         app.logger.debug(f"GET. EDIT USER. id = {id}")

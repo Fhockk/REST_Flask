@@ -1,4 +1,6 @@
 """CRUD functions"""
+import sqlalchemy
+
 from ..config import db
 
 from ..models.model import User, user_schema, users_schema
@@ -54,11 +56,12 @@ def get_user(user_id: str) -> dict | None:  # pylint: disable=E1131
     It contains the following keys: id, username, email, password, created_at, and updated_at.
     If the user id is not found in the database, the function returns None.
     """
-    if user_id.isdigit():
-        user = User.query.filter_by(id=int(user_id)).first()
-    else:
+    try:
+        int_id = int(user_id)
+        user = User.query.filter_by(id=int_id).first()
+    except ValueError:
         user = User.query.filter_by(email=user_id).first()
-    
+
     if user:
         user_dict = user_schema.dump(user)
         return user_dict
@@ -99,7 +102,11 @@ def delete_user(user_id: int) -> str:
     :return:
         str: A string indicating whether the operation was successful or not.
     """
-    user = User.query.filter_by(id=user_id).first()
+    try:
+        int_id = int(user_id)
+        user = User.query.filter_by(id=int_id).first()
+    except ValueError:
+        user = User.query.filter_by(email=user_id).first()
 
     if user:
         with db.session() as session:
@@ -135,11 +142,14 @@ def create_post(data: dict) -> str:
     :return:
         str: A message indicating the success of the operation.
     """
-    with db.session() as session:
-        new_post = Post(**data)
-        session.add(new_post)
-        session.commit()
-    return 'Success'
+    try:
+        with db.session() as session:
+            new_post = Post(**data)
+            session.add(new_post)
+            session.commit()
+        return 'Success'
+    except sqlalchemy.exc.OperationalError:
+        return 'Error.'
 
 
 def get_post(post_id: int) -> dict | None:  # pylint: disable=E1131
@@ -153,7 +163,11 @@ def get_post(post_id: int) -> dict | None:  # pylint: disable=E1131
         dict | None: If a post with the specified ID exists, returns a dictionary with its data.
         Otherwise, returns None.
     """
-    post = Post.query.filter_by(id=post_id).first()
+    try:
+        int_id = int(post_id)
+        post = Post.query.filter_by(id=int_id).first()
+    except ValueError:
+        post = Post.query.filter_by(title=post_id).first()
 
     if post:
         post_dict = post_schema.dump(post)
@@ -172,7 +186,12 @@ def update_post(data: dict) -> str:
      :return:
         str: A message indicating the success or failure of the operation.
     """
-    post = Post.query.filter_by(id=data.get('id')).first()
+    int_id = data.get('id')
+    if int_id:
+        post = Post.query.filter_by(id=int(int_id)).first()
+    else:
+        print('here')
+        post = Post.query.filter_by(title=data.get('title')).first()
 
     if post:
         post.title = data.get('title') or post.title
@@ -192,7 +211,11 @@ def delete_post(post_id: int) -> str:
     :return:
         str: A message indicating the success or failure of the operation.
     """
-    post = Post.query.filter_by(id=post_id).first()
+    try:
+        int_id = int(post_id)
+        post = Post.query.filter_by(id=int_id).first()
+    except ValueError:
+        post = Post.query.filter_by(title=post_id).first()
 
     if post:
         with db.session() as session:
