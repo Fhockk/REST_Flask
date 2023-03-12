@@ -1,5 +1,7 @@
 import sys
-sys.path.append('C:\\Users\\lostd\\Desktop\\epam\\REST_Flask')
+import os
+current_dir = os.getcwd()
+sys.path.append(current_dir)
 
 
 from restflask.app import app
