@@ -1,11 +1,16 @@
 """WEB controllers"""
 from datetime import datetime
-
-from config import app
 from flask import render_template, redirect, request, flash
-from service.validate import date_format
 
-from service.services import *
+from ..config import app
+
+from ..models.model import User, Post
+
+from ..service.validate import date_format
+from ..service.services import get_user, get_users, get_post, get_posts
+from ..service.services import create_user, create_post
+from ..service.services import update_user, update_post
+from ..service.services import delete_user, delete_post
 
 
 # ==================== Users ====================
@@ -55,7 +60,7 @@ def view_new_user():
 
 
 @app.route('/users/<int:id>/', methods=['GET'])
-def view_get_user(id: int):
+def view_get_user(id: int):  # pylint: disable=C0103,W0622
     """
     Displays the details of a specific user, including the number of posts they have and
     their registration date.
@@ -67,7 +72,7 @@ def view_get_user(id: int):
         rendered template: the details of the specified user.
     """
     user_id = id
-    user = get_user(int(user_id))
+    user = get_user(user_id)
     user['num_post'] = len(user['posts'])
     user['registered_at'] = date_format(user['registered_at'])
     app.logger.debug(f"GET USER. id = {user_id}")
@@ -75,7 +80,7 @@ def view_get_user(id: int):
 
 
 @app.route('/edit_user/<int:id>/', methods=['GET', 'POST'])
-def view_edit_user(id: int):
+def view_edit_user(id: int):  # pylint: disable=C0103,W0622,R1710
     """
     View function for editing a user record.
 
@@ -101,8 +106,6 @@ def view_edit_user(id: int):
         if feedback == 'Success':
             flash('User record updated!', category='message')
             return redirect('/')
-        else:
-            flash(feedback, category='error')
     else:
         user = get_user(id)
         app.logger.debug(f"GET. EDIT USER. id = {id}")
@@ -110,7 +113,7 @@ def view_edit_user(id: int):
 
 
 @app.route('/delete_user/<int:id>/', methods=['GET'])
-def view_delete_user(id: int):
+def view_delete_user(id: int):  # pylint: disable=C0103,W0622
     """
     View function for deleting a user record.
 
@@ -166,6 +169,11 @@ def view_posts():
         posts = get_posts()
         for post in posts:
             post['created_at'] = date_format(post['created_at'])
+            if post['user'] and post['author_id']:
+                post['user'] = post['user'].username
+            else:
+                post['user'] = '0'
+                post['author_id'] = '0'
         app.logger.debug("GET. List of posts")
     return render_template("post_list.html", posts=posts, users=users)
 
@@ -184,7 +192,7 @@ def view_new_post():
         The rendered HTML template for the new post creation page with
         a form to create a new post.
     """
-    if request.method == "POST":
+    if request.method == "POST":  # pylint: disable=R1705
         data = {
             'title': request.form.get('title'),
             'description': request.form.get('description'),
@@ -200,11 +208,11 @@ def view_new_post():
     else:
         data = User.query.all()
         app.logger.debug(f'GET NEW POST. USER id ={request.form.get("author_id")}')
-    return render_template("new_post.html", data=data)
+        return render_template("new_post.html", data=data)
 
 
 @app.route('/posts/<int:id>/', methods=['GET'])
-def view_get_posts(id: int):
+def view_get_posts(id: int):   # pylint: disable=C0103,W0622
     """
     Renders a view to display a single post identified by the given ID.
 
@@ -212,30 +220,33 @@ def view_get_posts(id: int):
         id (int): The ID of the post to display.
 
     :return:
-        If a post with the given ID is found, renders the "post.html" template with
+        If a post with the given ID is found, renders the "post.html" template with   
         data dictionary.
     """
     post = get_post(id)
-    if post:
-        author = post['user']
+    if post:  # pylint: disable=R1705
         data = {
             'id': post['id'],
             'title': post['title'],
             'description': post['description'],
-            'created_at': date_format(post['created_at']),
-            'author_id': post['author_id'],
-            'first_name': author.first_name,
-            'last_name': author.last_name
+            'created_at': date_format(post['created_at'])
         }
+        if post['user'] and post['author_id']:
+            data['first_name'] = post['user'].first_name
+            data['last_name'] = post['user'].last_name
+            data['author_id'] = post['author_id']
+        else:
+            post['user'] = '0'
+            post['author_id'] = '0'
         app.logger.debug(f'GET. POST VIEW. id ={post["id"]}')
         return render_template("post.html", data=data)
     else:
-        app.logger.debug(f'GET. POST VIEW. UNKNOWN ID')
+        app.logger.debug('GET. POST VIEW. UNKNOWN ID')
         return redirect('/')
 
 
 @app.route('/edit_post/<int:id>/', methods=['GET', 'POST'])
-def view_edit_post(id: int):
+def view_edit_post(id: int):   # pylint: disable=C0103,W0622,R1710
     """
     View function to edit an existing post.
 
@@ -257,7 +268,7 @@ def view_edit_post(id: int):
         }
         feedback = update_post(data)
         app.logger.debug(f"POST. EDIT POST {data.get('id')}: {feedback}")
-        if feedback == 'Success':
+        if feedback == 'Success':  # pylint: disable=R1705
             flash('Post record updated!', category='message')
             return redirect('/posts/' + str(id))
         else:
@@ -269,7 +280,7 @@ def view_edit_post(id: int):
 
 
 @app.route('/delete_post/<int:id>/', methods=['GET'])
-def view_delete_post(id: int):
+def view_delete_post(id: int):   # pylint: disable=C0103,W0622
     """
     This view function deletes a post record with the given ID from the database.
 
@@ -287,4 +298,3 @@ def view_delete_post(id: int):
         app.logger.debug("GET. DELETING USER. flash ERROR MESSAGE ")
         flash(feedback, category='error')
     return redirect("/posts/")
-

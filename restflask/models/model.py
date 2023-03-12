@@ -1,10 +1,10 @@
 """Project Models"""
 from marshmallow import fields
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text, func
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
+# from sqlalchemy.sql import func
 
-from config import db, ma
+from ..config import db, ma
 
 
 class User(db.Model):
@@ -28,7 +28,7 @@ class User(db.Model):
     first_name      = Column(String(35), nullable=False)
     last_name       = Column(String(35), nullable=False)
     location        = Column(String(45), nullable=False)
-    registered_at   = Column(DateTime(timezone=True), server_default=func.now())
+    registered_at   = Column(DateTime(timezone=True), server_default=func.now())  # pylint: disable=E1102
     posts            = relationship('Post', back_populates='user', cascade='all, delete')
 
     def __repr__(self):
@@ -64,7 +64,7 @@ class Post(db.Model):
     id              = Column(Integer, primary_key=True)
     title           = Column(String(255), nullable=False)
     description     = Column(Text, nullable=False)
-    created_at      = Column(DateTime(timezone=True), server_default=func.now())
+    created_at      = Column(DateTime(timezone=True), server_default=func.now())  # pylint: disable=E1102
     author_id       = Column(Integer, ForeignKey('users.id'))
     user            = relationship('User', back_populates='posts')
 
