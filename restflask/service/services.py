@@ -46,7 +46,7 @@ def create_user(data: dict) -> str:
     return 'Success'
 
 
-def get_user(user_id: str) -> dict | None:  # pylint: disable=E1131
+def get_user(user_id: str) -> dict:  # pylint: disable=E1131
     """
     This function takes an integer user_id as input and returns a dictionary of user data associated
     with the given user id. If the user id is not found in the database, the function returns None.
@@ -152,7 +152,7 @@ def create_post(data: dict) -> str:
         return 'Error.'
 
 
-def get_post(post_id: int) -> dict | None:  # pylint: disable=E1131
+def get_post(post_id: int) -> dict:  # pylint: disable=E1131
     """
     Retrieves the post with the specified ID from the database.
 
