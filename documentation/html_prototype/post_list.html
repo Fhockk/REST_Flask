@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="reset.css"/>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="menu">
+            <div class="menu_item">
+                <a href="user_list.html">
+                    Users
+                </a>
+            </div>
+            <div class="menu_item current">
+                <a href="post_list.html">
+                    Posts
+                </a>
+            </div>
+        </div>
+
+        <div class="search_block">
+            <form>
+                <div class="birthday_from_blok">
+                    <label for="birthday_from">Post created from:</label>
+                    <input type="date" name="created_from" placeholder="dd.mm.yyyy">
+                </div>
+
+                <div class="birthday_to_blok">
+                    <label for="birthday_to">Post created to:</label>
+                    <input type="date" name="created_to" placeholder="dd.mm.yyyy">
+                </div>
+
+                <div class="by_user_search">
+                    <label for="user_id">Author:</label>
+                    <select name="user_id" >
+                        <option value="0">Any user</option>
+                        <option value="1">Anatolii Khyzun</option>
+                        <option value="2">Valentina Diakova</option>
+                        <option value="3">Harry Potter</option>
+                    </select>
+                </div>
+
+                <input type="submit" id="button" value="SEARCH">
+            </form>
+        </div>
+
+        <div class="user_list">
+            <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Likes</th>
+                <th>Author</th>
+                <th>Created at</th>
+            </tr>
+            <tr>
+                <td>
+                    <a href="post.html">
+                        Earth
+                    </a>
+                </td>
+                <td>This is description</td>
+                <td>5</td>
+                <td>
+                    <a href="user.html">Anatolii Khyzun</a>
+                </td>
+                <td>01.01.2023</td>
+            </tr>
+            <tr>
+                <td>Mars</td>
+                <td>This is description2</td>
+                <td>2</td>
+                <td>Anatolii Khyzun</td>
+                <td>02.01.2023</td>
+            </tr>
+            </table>
+        </div>
+    </body>
+</html>
