@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="reset.css"/>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="menu">
+            <div class="menu_item">
+                <a href="user_list.html">
+                    Users
+                </a>
+            </div>
+            <div class="menu_item">
+                <a href="post_list.html">
+                    Posts
+                </a>
+            </div>
+        </div>
+
+        <div class="user_block">
+            <div class="photo">
+                <img src="face.jpg" width="150" height="150" alt="photo of user">
+            </div>
+            <div class="name_title">Anatolii Khyzun</div>
+        </div>
+
+        <div class="user_data">
+            <table class="table">
+            <tr>
+                <td>Username</td>
+                <td>Fhockk</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>Anatolii</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>Khyzun</td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>Kropyvnytskyi</td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>admin</td>
+            </tr>
+            <tr>
+                <td>Posts</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>Registered at</td>
+                <td>yesterday</td>
+            </tr>
+
+            </table>
+        </div>
+
+
+        <div class="buttons_block">
+            <button class="button">
+                <a href="edit_user.html">EDIT</a>
+            </button>
+            <button class="button" onclick="confirmation()">
+                <script>
+                    function confirmation(){
+                        confirm("Do you confirm deletion?");
+                    }
+                </script>
+                <a href="user_list.html">DELETE</a>
+            </button>
+        </div>
+
+        <div class="table_title">
+            List of posts
+        </div>
+
+        <div class="post_list">
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Likes</th>
+                </tr>
+                <tr>
+                    <td>Earth</td>
+                    <td>This is description</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="post.html">Mars</a>
+                    </td>
+                    <td>This is description2</td>
+                    <td>2</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="buttons_block">
+            <button class="button">
+                <a href="new_post.html">
+                    ADD
+                </a>
+            </button>
+        </div>
+
+    </body>
+</html>

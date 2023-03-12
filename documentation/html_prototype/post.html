@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="reset.css"/>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="menu">
+            <div class="menu_item">
+                <a href="user_list.html">
+                    Users
+                </a>
+            </div>
+            <div class="menu_item">
+                <a href="post_list.html">
+                    Posts
+                </a>
+            </div>
+        </div>
+
+        <div class="user_block">
+            <div class="photo">
+                <img src="face.jpg" width="150" height="150" alt="photo of user">
+            </div>
+            <div class="name_title">Earth</div>
+        </div>
+
+        <div class="user_data">
+            <table class="table">
+            <tr>
+                <td>Title</td>
+                <td>Earth</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>This is description</td>
+            </tr>
+            <tr>
+                <td>Likes</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>Author</td>
+                <td>Anatolii Khyzun</td>
+            </tr>
+            <tr>
+                <td>Created at</td>
+                <td>01.01.2023</td>
+            </tr>
+            </table>
+        </div>
+
+
+        <div class="buttons_block">
+            <button class="button">
+                <a href="edit_post.html">EDIT</a>
+            </button>
+            <button class="button" onclick="confirmation()">
+                <script>
+                    function confirmation(){
+                        confirm("Do you confirm deletion?");
+                    }
+                </script>
+                <a href="post_list.html">DELETE</a>
+            </button>
+        </div>
+
+    </body>
+</html>

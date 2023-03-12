@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="reset.css"/>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="menu">
+            <div class="menu_item">
+                <a href="user_list.html">
+                    Users
+                </a>
+            </div>
+            <div class="menu_item">
+                <a href="post_list.html">
+                    Posts
+                </a>
+            </div>
+        </div>
+
+        <div class="user_block">
+            <div class="photo">
+                <img src="face.jpg" width="150" height="150" alt="photo of user">
+            </div>
+            <div class="name_title">New Post</div>
+        </div>
+
+
+        <div class="user_data_edit">
+            <form action="post_list.html">
+                <table class="table">
+                    <tr>
+                        <td>Title</td>
+                        <td><input type="text" id="title" name="title" value="" size="30"></td>
+                    </tr>
+                    <tr>
+                        <td>Description</td>
+                        <td><input type="text" id="description" name="description" value="" size="30"></td>
+                    </tr>
+                </table>
+
+                <input type="submit" id="button_save" value="SAVE">
+            </form>
+
+        </div>
+
+    </body>
+</html>
