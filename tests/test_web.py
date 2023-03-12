@@ -40,22 +40,22 @@ class TestWebUser:
         assert b'redirected automatically to the target URL: <a href="/">' in response.data
 
     def test_web_get_user(self):
-        response = app.test_client().get('/users/1/')
+        response = app.test_client().get('/users/2/')
         assert response.status_code == 200
         assert b'List of posts' in response.data
 
     def test_web_edit_user(self):
-        response = app.test_client().get('/edit_user/1/')
+        response = app.test_client().get('/edit_user/2/')
         assert response.status_code == 200
         assert b'<input type="text" id="first_name" name="first_name"' in response.data
 
     def test_web_edit_user_post(self):
-        response = app.test_client().post('/edit_user/1/', data=self.test_data)
+        response = app.test_client().post('/edit_user/2/', data=self.test_data)
         assert response.status_code == 302
         assert b'redirected automatically to the target URL: <a href="/">' in response.data
 
     def test_web_delete_user(self):
-        response = app.test_client().get('/delete_user/1/')
+        response = app.test_client().get('/delete_user/2/')
         assert response.status_code == 302
         assert b'redirected' in response.data
 
@@ -92,11 +92,11 @@ class TestWebPost:
         assert b'<input type="text" id="title" name="title"' in response.data
 
     def test_web_edit_post_post(self):
-        response = app.test_client().post('/edit_post/8/', data=self.test_data)
+        response = app.test_client().post('/edit_post/2/', data=self.test_data)
         assert response.status_code == 302
         assert b'Redirecting...' in response.data
 
     def test_web_delete_user(self):
-        response = app.test_client().get('/delete_user/1/')
+        response = app.test_client().get('/delete_user/2/')
         assert response.status_code == 302
         assert b'redirected' in response.data

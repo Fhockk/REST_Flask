@@ -80,7 +80,12 @@ def update_user(data: dict) -> str:
         str: A string indicating the status of the operation. Either "Success" or an error message
         if the user record does not exist.
     """
-    user = User.query.filter_by(id=data.get('id')).first()
+    int_id = data.get('id')
+    if int_id:
+        user = User.query.filter_by(id=int(int_id)).first()
+    else:
+        user = User.query.filter_by(email=data.get('email')).first()
+    # user = User.query.filter_by(id=data.get('id')).first()
     if user:
         user.first_name = data.get('first_name') or user.first_name
         user.last_name = data.get('last_name') or user.last_name

@@ -98,7 +98,7 @@ def api_update_user():
     """
     data = request.json
     feedback = update_user(data)
-    app.logger.debug(f"API. UPDATE USER. id = {request.json.get('id')}. {feedback}")
+    app.logger.debug(f"API. UPDATE USER. {feedback}")
     if feedback == "Success":
         return jsonify(message='User ' + data['username'] + ' has been updated'), 201
     return jsonify(message=feedback), 409  # check status code
@@ -189,7 +189,7 @@ def api_get_post():
     feedback = get_post(post_id)
     app.logger.debug(f"API. GET POST. id = {request.args.get('id')}. {feedback}")
     if feedback:
-        if feedback['user'] and feedback['author_id']:
+        if feedback['user'] and feedback['author_id']:  # pylint: disable=R1705
             feedback['user'] = feedback['user'].username
             return jsonify(feedback), 200
         else:

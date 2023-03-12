@@ -220,21 +220,24 @@ def view_get_posts(id: int):   # pylint: disable=C0103,W0622
         id (int): The ID of the post to display.
 
     :return:
-        If a post with the given ID is found, renders the "post.html" template with
+        If a post with the given ID is found, renders the "post.html" template with   
         data dictionary.
     """
     post = get_post(id)
     if post:  # pylint: disable=R1705
-        author = post['user']
         data = {
             'id': post['id'],
             'title': post['title'],
             'description': post['description'],
-            'created_at': date_format(post['created_at']),
-            'author_id': post['author_id'],
-            'first_name': author.first_name,
-            'last_name': author.last_name
+            'created_at': date_format(post['created_at'])
         }
+        if post['user'] and post['author_id']:
+            data['first_name'] = post['user'].first_name
+            data['last_name'] = post['user'].last_name
+            data['author_id'] = post['author_id']
+        else:
+            post['user'] = '0'
+            post['author_id'] = '0'
         app.logger.debug(f'GET. POST VIEW. id ={post["id"]}')
         return render_template("post.html", data=data)
     else:
@@ -265,7 +268,7 @@ def view_edit_post(id: int):   # pylint: disable=C0103,W0622,R1710
         }
         feedback = update_post(data)
         app.logger.debug(f"POST. EDIT POST {data.get('id')}: {feedback}")
-        if feedback == 'Success':
+        if feedback == 'Success':  # pylint: disable=R1705
             flash('Post record updated!', category='message')
             return redirect('/posts/' + str(id))
         else:
